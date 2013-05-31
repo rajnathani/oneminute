@@ -43,6 +43,7 @@ function time_diff(t) {
     t = parseInt(t);
     var utc = cur_utc();
     var seconds_diff = (utc - t);
+    var future = seconds_diff < 0;
     var minutes_diff = Math.floor(seconds_diff / 60);
     var hours_diff = Math.floor(minutes_diff / 60);
     var days_diff = Math.floor(hours_diff / 24);
@@ -50,59 +51,65 @@ function time_diff(t) {
     var months_diff = Math.floor(days_diff / 30);
     var year_diff = Math.floor(days_diff / 365);
 
+
+   var base_string;
+   var needs_suffix = true;
    console.log(seconds_diff);
     if (seconds_diff < 25) {
-        return ('few seconds ago');
+        base_string = 'few seconds';
     }
     else if (seconds_diff < 40) {
-        return ('about 30 seconds ago');
+        base_string = 'about 30 seconds';
     } else if (seconds_diff < 60) {
-        return('less than a minute ago')
+        base_string = 'less than a minute';
     }
     else if (minutes_diff < 2) {
-        return ('one minute ago');
+        base_string = 'one minute';
 
     } else if (minutes_diff <= 60) {
-        return(minutes_diff + ' minutes ago');
+        base_string =  minutes_diff + ' minutes';
 
     } else if (hours_diff <= 2) {
-        return('one hour ago');
+        base_string =  'one hour';
     } else if (hours_diff < 24) {
-        return( hours_diff + ' hours ago');
+        base_string =  hours_diff + ' hours';
     }
     else if (days_diff < 2) {
-        return('yesterday');
+        needs_suffix = false;
+        base_string = future ? 'tomorrow' : 'yesterday';
     }
     else if (weeks_diff < 1) {
-        return(days_diff + ' days ago' );
+        base_string = days_diff + ' days';
     }
     else if (weeks_diff < 2) {
-        return('one week ago');
+        base_string = 'one week';
     }
 
     else if (months_diff < 1) {
-        return(Math.floor(days_diff / (7)) + ' weeks ago');
+        base_string = (Math.floor(days_diff / (7)) + ' weeks');
     }
     else if (months_diff < 2) {
-        return ('a month ago');
+        base_string =  'a month';
     } else if (year_diff < 1) {
-        return(months_diff + ' months ago');
+        base_string =  months_diff + ' months';
     } else if (year_diff < 2) {
-        return ('one year ago');
+        base_string =  'one year';
     }
     else if (year_diff < 100){
-        return year_diff + " years ago";
+        base_string =  year_diff + " years";
     }
     else if (year_diff === 100) {
-        return "a century ago"
+        base_string =  "a century"
     }
     else if (year_diff < 1000) {
-        return Math.floor(year_diff/100) + " centuries ago";
+        base_string =  Math.floor(year_diff/100) + " centuries";
     } else if (year_diff === 1000) {
-        return "a millennium ago"
+        base_string =  "a millennium"
     } else {
-        return Math.floor(year_diff/1000) + " millennia ago";
+        base_string =  Math.floor(year_diff/1000) + " millennia";
     }
+
+    return needs_suffix ? (future ? base_string + " from now" : base_string + " ago") : base_string;
 }
 
 
