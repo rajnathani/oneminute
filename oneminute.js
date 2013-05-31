@@ -1,3 +1,7 @@
+/* Config */
+var pool_interval = 1; // Enter recalculating time in number of milliseconds, more at github.com/relfor/oneminute/README.md
+
+
 function cur_utc() {
     return new Date().getTime() / 1000;
 }
@@ -7,18 +11,14 @@ var month_mapper = {0:'Jan', 1:'Feb', 2:'Mar', 3:'Apr', 4:'May', 5:'Jun', 6:'Jul
 
 
 function time_engineer() {
-    var utc = cur_utc();
     var all_elements = document.getElementsByTagName('*');
     var cur_element, cur_timestamp, time_diff_pref;
     for (var i = 0; i < all_elements.length; i++) {
         cur_element = all_elements[i];
         if (cur_element.getAttribute('data-timestamp') !== null) {
-
-
-            //console.log('one more');
             cur_timestamp = parseInt(cur_element.getAttribute('data-timestamp'));
 
-            time_diff_pref = cur_element.getAttribute('data-time-diff');
+            time_diff_pref = cur_element.getAttribute('data-time-mode');
             if (time_diff_pref === null || time_diff_pref === '0') {
                 cur_element.innerHTML = date_format(cur_timestamp);
             } else if (time_diff_pref === '1') {
@@ -105,7 +105,11 @@ function time_diff(t) {
     }
 }
 
+
 time_engineer();
+
+
+setInterval(time_engineer, 1);
 
 
 
