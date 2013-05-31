@@ -116,7 +116,7 @@ function time_diff(t) {
 time_engineer();
 
 
-setInterval(time_engineer, 1);
+var oneminute_recalculator = setInterval(time_engineer, 1);
 
 
 
