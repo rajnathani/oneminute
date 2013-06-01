@@ -1,0 +1,158 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+<head>
+    <title>onminute - JavaScript for Time Differences and Dates</title>
+    <meta type="keywords" content="javascript, time difference, dates, timestamp, js"/>
+    <meta type="description" content="a javascript library for in displaying time differences and dates on html pages"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="static/css/main.css"/>
+    <!--[if lt IE9]
+    <script src="//github.com/aFarkas/html5shiv/blob/master/dist/html5shiv.js"></script>
+    -->
+    <script src="../oneminute.js"></script>
+    <script src="static/js/demonstration.js"></script>
+</head>
+
+
+<body class="cf">
+<header><img src="static/imgs/logo-vertical.png"/></header>
+<section>
+    <aside>
+        <div id="cur-time-pace">
+            Time is moving at <input type="text" id="seconds-per-second" value="1"> seconds<br>per<br>earth second
+        </div>
+        <div style="margin: 20px 0">
+            You visited this page:
+            <div class="visited-timestamp"></div>
+        </div>
+
+        <div>
+            oneminute.js is JavaScript library which converts
+            integer timestamps to meaningful text conveying time differences, and/or optionally dates.
+        </div>
+
+    </aside>
+
+    <aside>
+
+        <textarea rows="2" id="test-comment" placeholder="Test with comments..."></textarea>
+        <ul id="comments-list">
+            <li>This comment was left when unix was created (<span data-timestamp="0"></span>)</li>
+            <li>The day Elvis Presley was born (<span data-timestamp="-1103932800"></span>)</li>
+        </ul>
+
+    </aside>
+    <aside>
+        <h1>API</h1>
+        <pre style='color:white;'>
+<span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>html</span><span
+                style='color:#ff8906; '>></span>
+    <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>body</span><span
+                style='color:#ff8906; '>></span>
+        blah blah blah
+        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>span</span> data-timestamp<span
+                style='color:#d2cd86; '>=</span><span style='color:#00c4c4; '>"{timestamp}"</span><span
+                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
+                style='color:#e66170; font-weight:bold; '>span</span><span style='color:#ff8906; '>></span>
+        blah blah blah
+        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>span</span> data-timestamp<span
+                style='color:#d2cd86; '>=</span><span style='color:#00c4c4; '>"{timestamp}"</span><span
+                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
+                style='color:#e66170; font-weight:bold; '>span</span><span style='color:#ff8906; '>></span>
+        blah blah blah
+        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>span</span> data-timestamp<span
+                style='color:#d2cd86; '>=</span><span style='color:#00c4c4; '>"{timestamp}"</span><span
+                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
+                style='color:#e66170; font-weight:bold; '>span</span><span style='color:#ff8906; '>></span>
+        blah blah blah
+        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>script src="oneminute.js"</span><span
+                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
+                style='color:#e66170; font-weight:bold; '>script</span><span style='color:#ff8906; '>></span>
+    <span style='color:#ff8906; '>&lt;/</span><span style='color:#e66170; font-weight:bold; '>body</span><span
+                style='color:#ff8906; '>></span>
+<span style='color:#ff8906; '>&lt;/</span><span style='color:#e66170; font-weight:bold; '>html</span><span
+                style='color:#ff8906; '>></span>
+</pre>
+
+        <div>
+            The library contains 5 functions, 1 setInterval variable & 1 environment variable:<br>
+            The following are the functions
+            <ul>
+                <li>
+                    <pre>cur_timestamp()</pre>
+                    Returns the current integer timestamp of the local computer (browser) in seconds, and not in milliseconds which is JavaScript's default.
+                </li>
+                <li>
+                    <pre>ts_diff(timestamp)</pre>
+                    Returns a string representing the textual difference in time between the current
+                </li>
+            </ul>
+
+        </div>
+    </aside>
+
+</section>
+
+<!-- For the sake of the demonstration current timestamp will be determined by us -->
+<script>
+
+
+    var _cur_ts = cur_timestamp();
+
+    var all_elements = document.getElementsByTagName('*');
+    var cur_element;
+    for (var i = 0; i < all_elements.length; i++) {
+        cur_element = all_elements[i];
+        if (cur_element.className.indexOf('visited-timestamp') !== -1) {
+            cur_element.setAttribute('data-timestamp', _cur_ts);
+
+        }
+
+    }
+
+
+    clearInterval(oneminute_recalculator);
+
+
+    var oneminute_recalculator = setInterval(function () {
+
+        _cur_ts += (isNaN(parseInt(document.getElementById('seconds-per-second').value)) ? 0 :
+                parseInt(document.getElementById('seconds-per-second').value)
+                ) / 100.0;
+        oneminute();
+    }, 10);
+
+
+</script>
+<script>
+    function cur_timestamp() {
+        return _cur_ts;
+    }
+
+
+    document.getElementById("seconds-per-second").onkeypress = function (e) {
+        var key_code = e.keyCode;
+
+        if (!((key_code > 47 && key_code < 58) || key_code === 45 || key_code === 8 || key_code === 37 || key_code === 39)) {
+            return false;
+        }
+    };
+
+    document.getElementById("test-comment").onkeydown = function (e) {
+        if (e.keyCode === 13) {
+            add_comment(this.value);
+            this.value = "";
+            return false;
+        }
+    };
+
+    function add_comment(content) {
+        var comments_list = document.getElementById('comments-list');
+        comments_list.innerHTML = ("<li>" + content + " (<span data-timestamp='" + cur_timestamp() + "'></span>)</li>") + comments_list.innerHTML;
+    }
+
+</script>
+
+</body>
+
+</html>

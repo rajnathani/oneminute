@@ -1,49 +1,63 @@
 /* Config */
-var pool_interval = 1; // Enter recalculating time in number of milliseconds, more at github.com/relfor/oneminute/README.md
+var pool_interval = 10; // Enter recalculating time in number of milliseconds, more at github.com/relfor/oneminute/README.md
 
 
-function cur_utc() {
+function cur_timestamp() {
     return new Date().getTime() / 1000;
 }
+
 
 var month_mapper = {0:'Jan', 1:'Feb', 2:'Mar', 3:'Apr', 4:'May', 5:'Jun', 6:'Jul',
     7:'Aug', 8:'Sep', 9:'Oct', 10:'Nov', 11:'Dec'};
 
+function gimme_oneminute(ts,setting){
+    if (!setting || setting === 0){
+        return ts_diff(ts);
+    } else if  (setting === 1){
+        return ts_date(ts);
+    } else {
+    return ts_date(cur_timestamp) + ' (' + ts_diff(cur_timestamp) +')'  ;
+    }
+}
 
-function time_engineer() {
+function oneminute() {
+
     var all_elements = document.getElementsByTagName('*');
-    var cur_element, cur_timestamp, time_diff_pref;
+    var cur_element, cur_timestamp, ts_diff_pref;
     for (var i = 0; i < all_elements.length; i++) {
         cur_element = all_elements[i];
         if (cur_element.getAttribute('data-timestamp') !== null) {
             cur_timestamp = parseInt(cur_element.getAttribute('data-timestamp'));
 
-            time_diff_pref = cur_element.getAttribute('data-time-mode');
-            if (time_diff_pref === null || time_diff_pref === '0') {
-                cur_element.innerHTML = date_format(cur_timestamp);
-            } else if (time_diff_pref === '1') {
+            ts_diff_pref = cur_element.getAttribute('data-time-mode');
+            if (ts_diff_pref === null || ts_diff_pref === '0') {
+                cur_element.innerHTML = gimme_oneminute(cur_timestamp);
+                cur_element.title = ts_date(cur_timestamp);
 
-                cur_element.innerHTML = time_diff(cur_timestamp);
-                cur_element.title = date_format(cur_timestamp);
+            } else if (ts_diff_pref === '1') {
+                cur_element.innerHTML = gimme_oneminute(cur_timestamp,1);
+
 
             } else {
-                cur_element.innerHTML = date_format(cur_timestamp) + ' (' + time_diff(cur_timestamp) +')'
+                cur_element.innerHTML = gimme_oneminute(cur_element,2);
 
             }
         }
     }
 }
 
-function date_format(t) {
+function ts_date(t) {
     var date = new Date(t * 1000 + 60000);
     return  date.getDate() + ' ' + month_mapper[date.getMonth()] + ' ' + date.getFullYear();
 }
 
-function time_diff(t) {
+function ts_diff(t) {
     t = parseInt(t);
-    var utc = cur_utc();
-    var seconds_diff = (utc - t);
+    var ts = cur_timestamp();
+
+    var seconds_diff = (ts - t);
     var future = seconds_diff < 0;
+    seconds_diff = Math.abs(seconds_diff);
     var minutes_diff = Math.floor(seconds_diff / 60);
     var hours_diff = Math.floor(minutes_diff / 60);
     var days_diff = Math.floor(hours_diff / 24);
@@ -54,7 +68,7 @@ function time_diff(t) {
 
    var base_string;
    var needs_suffix = true;
-   console.log(seconds_diff);
+
     if (seconds_diff < 25) {
         base_string = 'few seconds';
     }
@@ -98,7 +112,7 @@ function time_diff(t) {
     else if (year_diff < 100){
         base_string =  year_diff + " years";
     }
-    else if (year_diff === 100) {
+    else if (year_diff === 1000) {
         base_string =  "a century"
     }
     else if (year_diff < 1000) {
@@ -113,16 +127,11 @@ function time_diff(t) {
 }
 
 
-time_engineer();
-
-
-var oneminute_recalculator = setInterval(time_engineer, 1);
+oneminute();
 
 
 
-
-
-
+var oneminute_recalculator = setInterval(oneminute, pool_interval);
 
 
 
