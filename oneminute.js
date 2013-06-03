@@ -16,7 +16,7 @@ function gimme_oneminute(timestamp,time_mode){
     } else if  (time_mode === 1){
         return ts_date(timestamp);
     } else {
-    return ts_date(timestamp) + ' (' + ts_diff(timestamp) +')'  ;
+        return ts_date(timestamp) + ' (' + ts_diff(timestamp) +')'  ;
     }
 }
 
@@ -39,7 +39,7 @@ function oneminute() {
 
 
             } else {
-                cur_element.innerHTML = gimme_oneminute(cur_element,2);
+                cur_element.innerHTML = gimme_oneminute(cur_timestamp,2);
 
             }
         }
@@ -66,8 +66,8 @@ function ts_diff(timestamp) {
     var year_diff = Math.floor(days_diff / 365);
 
 
-   var base_string;
-   var needs_suffix = true;
+    var base_string;
+    var needs_suffix = true;
 
     if (seconds_diff < 25) {
         base_string = 'few seconds';
