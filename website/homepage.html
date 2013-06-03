@@ -2,15 +2,19 @@
 <html dir="ltr" lang="en">
 <head>
     <title>onminute - JavaScript for Time Differences and Dates</title>
-    <meta type="keywords" content="javascript, time difference, dates, timestamp, js"/>
-    <meta type="description" content="a javascript library for in displaying time differences and dates on html pages"/>
+    <meta name="keywords" content="javascript, time difference, dates, timestamp, js"/>
+    <meta name="description" content="a javascript library for in displaying time differences and dates on html pages"/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+
+
     <link rel="stylesheet" type="text/css" href="static/css/main.css"/>
+
     <!--[if lt IE9]
     <script src="//github.com/aFarkas/html5shiv/blob/master/dist/html5shiv.js"></script>
     -->
     <script src="../oneminute.js"></script>
-    <script src="static/js/demonstration.js"></script>
+
+
 </head>
 
 
@@ -23,7 +27,9 @@
         </div>
         <div style="margin: 20px 0">
             You visited this page:
-            <div class="visited-timestamp"></div>
+            <div class="visited-timestamp"></div>   <br>
+            The date:
+            <div class="visited-timestamp" data-time-mode="1"></div>
         </div>
 
         <div>
@@ -44,49 +50,112 @@
     </aside>
     <aside>
         <h1>API</h1>
-        <pre style='color:white;'>
-<span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>html</span><span
-                style='color:#ff8906; '>></span>
-    <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>body</span><span
-                style='color:#ff8906; '>></span>
-        blah blah blah
-        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>span</span> data-timestamp<span
-                style='color:#d2cd86; '>=</span><span style='color:#00c4c4; '>"{timestamp}"</span><span
-                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
-                style='color:#e66170; font-weight:bold; '>span</span><span style='color:#ff8906; '>></span>
-        blah blah blah
-        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>span</span> data-timestamp<span
-                style='color:#d2cd86; '>=</span><span style='color:#00c4c4; '>"{timestamp}"</span><span
-                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
-                style='color:#e66170; font-weight:bold; '>span</span><span style='color:#ff8906; '>></span>
-        blah blah blah
-        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>span</span> data-timestamp<span
-                style='color:#d2cd86; '>=</span><span style='color:#00c4c4; '>"{timestamp}"</span><span
-                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
-                style='color:#e66170; font-weight:bold; '>span</span><span style='color:#ff8906; '>></span>
-        blah blah blah
-        <span style='color:#ff8906; '>&lt;</span><span style='color:#e66170; font-weight:bold; '>script src="oneminute.js"</span><span
-                style='color:#ff8906; '>></span><span style='color:#ff8906; '>&lt;/</span><span
-                style='color:#e66170; font-weight:bold; '>script</span><span style='color:#ff8906; '>></span>
-    <span style='color:#ff8906; '>&lt;/</span><span style='color:#e66170; font-weight:bold; '>body</span><span
-                style='color:#ff8906; '>></span>
-<span style='color:#ff8906; '>&lt;/</span><span style='color:#e66170; font-weight:bold; '>html</span><span
-                style='color:#ff8906; '>></span>
+        <pre >
+<span class="html-tag">html</span>
+  <span class="html-tag">body</span>
+    blah blah blah
+    <span class="html-tag">span <span class="html-attr">data-timestamp</span><span class="html-val">{timestamp}</span></span><span class="html-tag">/span</span>
+    blah blah blah
+    <span class="html-tag">span <span class="html-attr">data-timestamp</span><span class="html-val">{timestamp}</span></span><span class="html-tag">/span</span>
+    blah blah blah
+    <span class="html-tag">span <span class="html-attr">data-timestamp</span><span class="html-val">{timestamp}</span></span><span class="html-tag">/span</span>
+    blah blah blah
+    <span class="html-tag">script <span class="html-attr">src</span><span class="html-val">oneminute.js</span></span><span class="html-tag">/span</span>
+  <span class="html-tag">/body</span>
+<span class="html-tag">/html</span>
 </pre>
 
-        <div>
+        <div>       <br>
+            The above html (with oneminute.js included at the bottom) will result
+            in the span
+            tags to obtain a text of the textual time difference, for example
+            : "2 years ago", "3 hours ago","2 weeks from now", etc.<br>
+            Note that span tags were used in the above example however any html tag (eg: div, p, abbr, ...) can be used.
+            <br>                                                   <br>
+            However besides textual time differences you might want to display the date? or maybe
+            even both the textual time difference as well as the date? for that the following
+            span
+            tag:
+            <pre>
+
+<span class="html-tag">span <span class="html-attr">data-timestamp</span><span class="html-val">{timestamp}</span></span><span class="html-tag">/span</span>
+            </pre>
+
+            would instead needed to supplied with one more data attribute, which is data-time-mode:
+            <pre>
+
+<span class="html-tag">span <span class="html-attr">data-timestamp</span><span class="html-val">{timestamp}</span> <span class="html-attr">data-time-mode</span><span class="html-val">{0/1/2}</span></span><span class="html-tag">/span</span>
+            </pre>
+
+            The data-time-mode attribute has 3 possible options:
+            <ul>
+                <li>0 (by default when the attribute is not specified)<br>
+                    This results in the textual time difference between the current local timestamp with the timestamp
+                    specified by data-timestamp, example: "1 week ago".
+                    The title of the html tag will be set to the date of the timestamp specified by data-timestamp, example: "23 Jan 2012".
+                </li>
+                <li>1<br>
+                    This results in the date of the timestamp specified by data-timestamp, example: "23 Jan 2012".
+                </li>
+                <li>2<br>
+                    This results in a combination of the above textual time difference and data (with respect to the timestamp specified by data-timestamp), where the date comes first and the textual time difference enclosed in parentheses occurs thereafter example: "23 Jan 2012 (one year ago)".
+                </li>
+            </ul>
+            <br>
             The library contains 5 functions, 1 setInterval variable & 1 environment variable:<br>
             The following are the functions
             <ul>
                 <li>
-                    <pre>cur_timestamp()</pre>
-                    Returns the current integer timestamp of the local computer (browser) in seconds, and not in milliseconds which is JavaScript's default.
+                    <pre class="function-par-name">cur_timestamp()</pre>
+                    Returns the current integer timestamp of the local computer (browser) in seconds, and not in
+                    milliseconds which is JavaScript's default.
                 </li>
                 <li>
-                    <pre>ts_diff(timestamp)</pre>
-                    Returns a string representing the textual difference in time between the current
+                    <pre class="function-par-name">ts_diff(timestamp)</pre>
+                    Returns a string representing the textual difference in time between the current local timestamp
+                    and the timestamp given by the parameter <pre>timestamp</pre>. Example: 11 minutes ago.
+                </li>
+                <li>
+                    <pre class="function-par-name">ts_date(timestamp)</pre>
+                    Returns a string representing the date of the timestamp <pre>timestamp</pre> (this is what will be
+                    returned when one sets data-time-mode to 1). Example: 4 July 1776.
+                </li>
+                <li>
+                    <pre class="function-par-name">gimme_oneminute(timestamp, time_mode)</pre>
+                    Returns the following depending on the <pre>time_mode</pre> specified:
+                    <ul>
+                        <li>0 (by default when the attribute is not specified)<br>
+                            This results in the textual time difference between the current local timestamp with the timestamp
+                            specified by data-timestamp, example: "1 week ago".
+                            The title of the html tag will be set to the date of the timestamp specified by data-timestamp, example: "23 Jan 2012".
+                        </li>
+                        <li>1<br>
+                            This results in the date of the timestamp specified by data-timestamp, example: "23 Jan 2012".
+                        </li>
+                        <li>2<br>
+                            This results in a combination of the above textual time difference and data (with respect to the timestamp specified by data-timestamp), where the date comes first and the textual time difference enclosed in parentheses occurs thereafter example: "23 Jan 2012 (one year ago)".
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <pre class="function-par-name">oneminute()</pre>
+                    Loops through the html document find tags (span,div,i,etc.. any tag) which contains <pre>data-timestamp</pre>
+                    and optionally <pre>data-time-mode</pre>, and provides the inner html of the tag as dictated by rules of <pre>gimme_oneminute(timestamp, time_mode</pre>, where the value of <pre>data-timestamp</pre> is the parameter <pre>timestamp</pre>, and the value of
+                    <pre>data-time-mode</pre> is the parameter <pre>time_mode</pre>. Internally oneminute() (obviously) uses gimme_oneminute().
                 </li>
             </ul>
+            <br>
+            Environment Variable: <pre class="function-par-name">oneminute_interval</pre>
+            The value of this variable is a number, and it represents, in milliseconds the time after which <pre>oneminute</pre>
+            should (re)scan the html document to update the time differences and/or dates.<br>
+            By default this <pre>oneminute_interval</pre> is set to 10 (milliseconds).
+            <br><br>
+            Interval:
+            <pre class="function-par-name">oneminute_rescanner</pre>
+            This represents the interval which will prevail every <pre>oneminute_interval</pre> number of milliseconds,
+            having a task of using <pre>oneminute</pre> to rescan the document to update the time differences and/or dates.
+
+
 
         </div>
     </aside>
@@ -111,16 +180,16 @@
     }
 
 
-    clearInterval(oneminute_recalculator);
+    clearInterval(oneminute_rescanner);
 
 
-    var oneminute_recalculator = setInterval(function () {
+    var oneminute_rescanner = setInterval(function () {
 
         _cur_ts += (isNaN(parseInt(document.getElementById('seconds-per-second').value)) ? 0 :
                 parseInt(document.getElementById('seconds-per-second').value)
                 ) / 100.0;
         oneminute();
-    }, 10);
+    }, oneminute_interval);
 
 
 </script>

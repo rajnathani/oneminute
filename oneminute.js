@@ -1,5 +1,5 @@
 /* Config */
-var pool_interval = 10; // Enter recalculating time in number of milliseconds, more at github.com/relfor/oneminute/README.md
+var oneminute_interval = 10; // Enter recalculating time in number of milliseconds, more at github.com/relfor/oneminute/README.md
 
 
 function cur_timestamp() {
@@ -10,11 +10,11 @@ function cur_timestamp() {
 var month_mapper = {0:'Jan', 1:'Feb', 2:'Mar', 3:'Apr', 4:'May', 5:'Jun', 6:'Jul',
     7:'Aug', 8:'Sep', 9:'Oct', 10:'Nov', 11:'Dec'};
 
-function gimme_oneminute(ts,setting){
-    if (!setting || setting === 0){
-        return ts_diff(ts);
-    } else if  (setting === 1){
-        return ts_date(ts);
+function gimme_oneminute(timestamp,time_mode){
+    if (!time_mode || time_mode === 0){
+        return ts_diff(timestamp);
+    } else if  (time_mode === 1){
+        return ts_date(timestamp);
     } else {
     return ts_date(cur_timestamp) + ' (' + ts_diff(cur_timestamp) +')'  ;
     }
@@ -46,16 +46,16 @@ function oneminute() {
     }
 }
 
-function ts_date(t) {
-    var date = new Date(t * 1000 + 60000);
+function ts_date(timestamp) {
+    var date = new Date(timestamp * 1000 + 60000);
     return  date.getDate() + ' ' + month_mapper[date.getMonth()] + ' ' + date.getFullYear();
 }
 
-function ts_diff(t) {
-    t = parseInt(t);
+function ts_diff(timestamp) {
+    timestamp = parseInt(timestamp);
     var ts = cur_timestamp();
 
-    var seconds_diff = (ts - t);
+    var seconds_diff = (ts - timestamp);
     var future = seconds_diff < 0;
     seconds_diff = Math.abs(seconds_diff);
     var minutes_diff = Math.floor(seconds_diff / 60);
@@ -131,7 +131,7 @@ oneminute();
 
 
 
-var oneminute_recalculator = setInterval(oneminute, pool_interval);
+var oneminute_rescanner = setInterval(oneminute, oneminute_interval);
 
 
 
