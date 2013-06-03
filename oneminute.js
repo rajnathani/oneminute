@@ -16,7 +16,7 @@ function gimme_oneminute(timestamp,time_mode){
     } else if  (time_mode === 1){
         return ts_date(timestamp);
     } else {
-    return ts_date(cur_timestamp) + ' (' + ts_diff(cur_timestamp) +')'  ;
+    return ts_date(timestamp) + ' (' + ts_diff(timestamp) +')'  ;
     }
 }
 
