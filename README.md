@@ -1,7 +1,7 @@
 oneminute
 =========
 
-javascript library for in displaying time differences and dates on html pages.
+a javascript library for displaying time differences and dates on html pages.
 The API and download links can be found at on its webpage: [oneminute.relfor.co](http://oneminute.relfor.co).
 
 #about oneminute.js
