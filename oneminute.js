@@ -7,39 +7,45 @@ function cur_timestamp() {
 }
 
 
-var month_mapper = {0:'Jan', 1:'Feb', 2:'Mar', 3:'Apr', 4:'May', 5:'Jun', 6:'Jul',
-    7:'Aug', 8:'Sep', 9:'Oct', 10:'Nov', 11:'Dec'};
+var month_mapper = {0: 'Jan', 1: 'Feb', 2: 'Mar', 3: 'Apr', 4: 'May', 5: 'Jun', 6: 'Jul',
+    7: 'Aug', 8: 'Sep', 9: 'Oct', 10: 'Nov', 11: 'Dec'};
 
-function gimme_oneminute(timestamp,time_mode){
-    if (!time_mode || time_mode === 0){
+function gimme_oneminute(timestamp, time_mode) {
+    if (!time_mode || time_mode === 0) {
         return ts_diff(timestamp);
-    } else if  (time_mode === 1){
+    } else if (time_mode === 1) {
         return ts_date(timestamp);
     } else {
-        return ts_date(timestamp) + ' (' + ts_diff(timestamp) +')'  ;
+        return ts_date(timestamp) + ' (' + ts_diff(timestamp) + ')';
     }
 }
 
 function oneminute() {
 
-    var all_elements = document.getElementsByTagName('*');
+    var query_selector = document.querySelectorAll !== undefined;
+
+    if (query_selector) {
+        all_elements = document.querySelectorAll('[data-timestamp]');
+    } else {
+        var all_elements = document.getElementsByTagName('*');
+    }
+
     var cur_element, cur_timestamp, ts_diff_pref;
     for (var i = 0; i < all_elements.length; i++) {
         cur_element = all_elements[i];
-        if (cur_element.getAttribute('data-timestamp') !== null) {
+        if (query_selector || cur_element.getAttribute('data-timestamp') !== null) {
             cur_timestamp = parseInt(cur_element.getAttribute('data-timestamp'));
-
             ts_diff_pref = cur_element.getAttribute('data-time-mode');
             if (ts_diff_pref === null || ts_diff_pref === '0') {
                 cur_element.innerHTML = gimme_oneminute(cur_timestamp);
                 cur_element.title = ts_date(cur_timestamp);
 
             } else if (ts_diff_pref === '1') {
-                cur_element.innerHTML = gimme_oneminute(cur_timestamp,1);
+                cur_element.innerHTML = gimme_oneminute(cur_timestamp, 1);
 
 
             } else {
-                cur_element.innerHTML = gimme_oneminute(cur_timestamp,2);
+                cur_element.innerHTML = gimme_oneminute(cur_timestamp, 2);
 
             }
         }
@@ -61,7 +67,7 @@ function ts_diff(timestamp) {
     var minutes_diff = Math.floor(seconds_diff / 60);
     var hours_diff = Math.floor(minutes_diff / 60);
     var days_diff = Math.floor(hours_diff / 24);
-    var weeks_diff = Math.floor(days_diff/7);
+    var weeks_diff = Math.floor(days_diff / 7);
     var months_diff = Math.floor(days_diff / 30);
     var year_diff = Math.floor(days_diff / 365);
 
@@ -81,12 +87,12 @@ function ts_diff(timestamp) {
         base_string = 'one minute';
 
     } else if (minutes_diff <= 60) {
-        base_string =  minutes_diff + ' minutes';
+        base_string = minutes_diff + ' minutes';
 
     } else if (hours_diff <= 2) {
-        base_string =  'one hour';
+        base_string = 'one hour';
     } else if (hours_diff < 24) {
-        base_string =  hours_diff + ' hours';
+        base_string = hours_diff + ' hours';
     }
     else if (days_diff < 2) {
         needs_suffix = false;
@@ -103,24 +109,24 @@ function ts_diff(timestamp) {
         base_string = (Math.floor(days_diff / (7)) + ' weeks');
     }
     else if (months_diff < 2) {
-        base_string =  'a month';
+        base_string = 'a month';
     } else if (year_diff < 1) {
-        base_string =  months_diff + ' months';
+        base_string = months_diff + ' months';
     } else if (year_diff < 2) {
-        base_string =  'one year';
+        base_string = 'one year';
     }
-    else if (year_diff < 100){
-        base_string =  year_diff + " years";
+    else if (year_diff < 100) {
+        base_string = year_diff + " years";
     }
     else if (year_diff === 1000) {
-        base_string =  "a century"
+        base_string = "a century"
     }
     else if (year_diff < 1000) {
-        base_string =  Math.floor(year_diff/100) + " centuries";
+        base_string = Math.floor(year_diff / 100) + " centuries";
     } else if (year_diff === 1000) {
-        base_string =  "a millennium"
+        base_string = "a millennium"
     } else {
-        base_string =  Math.floor(year_diff/1000) + " millennia";
+        base_string = Math.floor(year_diff / 1000) + " millennia";
     }
 
     return needs_suffix ? (future ? base_string + " from now" : base_string + " ago") : base_string;
@@ -128,7 +134,6 @@ function ts_diff(timestamp) {
 
 
 oneminute();
-
 
 
 var oneminute_rescanner = setInterval(oneminute, oneminute_interval);
