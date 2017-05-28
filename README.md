@@ -2,9 +2,9 @@ oneminute
 =========
 
 a javascript library for displaying time differences and dates on html pages.
-The API and download links can be found at on its webpage: [oneminute.relfor.co](http://oneminute.relfor.co).
+The API and download links can be found at on its webpage: [oneminute.rajnathani.com](http://oneminute.rajnathani.com).
 
-#about oneminute.js
+# about oneminute.js
 
 Big websites like facebook, google, github, etc. display a lot of content, many parts of this content can
 be viewed as time based events, there was some time in the past (or maybe even the future) where
@@ -15,7 +15,7 @@ column of the table, information is given as to when the last commit was made fo
 To get this
 functionality with elegance oneminute.js was made.
 
-#API
+# API
 
     <html>
       <body>
@@ -53,7 +53,7 @@ This results in the date of the timestamp specified by data-timestamp, example: 
 This results in a combination of the above textual time difference and data (with respect to the timestamp specified by data-timestamp), where the date comes first and the textual time difference enclosed in parentheses occurs thereafter example: "23 Jan 2012 (one year ago)".
 
 The library contains *5* functions, *1* setInterval variable & *1* environment variable:
-###functions:  
+### functions:  
 
 - `cur_timestamp()`  
   Returns the current integer timestamp of the local computer (browser) in seconds, and not in milliseconds which is JavaScript's default.
@@ -78,7 +78,7 @@ This results in the textual time difference between the current local timestamp 
 - `oneminute()`  
   Loops through the html document find tags (span,div,i,etc.. any tag) which contains data-timestamp and optionally data-time-mode, and provides the inner html of the tag as dictated by rules of gimme_oneminute(timestamp, time_mode, where the value of data-timestamp is the parameter timestamp, and the value of  data-time-mode is the parameter time_mode. Internally oneminute() (obviously) uses gimme_oneminute().
 
-###Environment Variable:
+### Environment Variable:
 `oneminute_interval`    
 The value of this variable is a number, and it represents, in milliseconds the time after which
 oneminute
@@ -87,7 +87,7 @@ By default this
 oneminute_interval
 is set to 10 (milliseconds). 
 
-###Interval:
+### Interval:
 `oneminute_rescanner`  
   This represents the interval which will prevail every
   oneminute_interval
